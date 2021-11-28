@@ -7,8 +7,8 @@ const images=[];
 const urls = [];
 const ratingScore= [];
 async function download(){
-    for (var i =1 ; i < 25 ; i++){
-        await login(i)
+    for (var i =100 ; i < 150 ; i++){
+        await start(i)
     }
     for (var i =0 ; i< urls.length; i++){
         await(downloadImage("https://cdn.dsmcdn.com/"+images[i],"trendyol.com"+urls[i],ratingScore[i]))
@@ -17,15 +17,12 @@ async function download(){
 
 
 
-async function login(page){
+async function start(page){
     const xhr = new XMLHttpRequest()
-      //async does not support timeout
+
     xhr.open('GET',url+ page+ urlRest,true)
-    //const json = loginJSON
     xhr.timeout = 15000
     addHeaders(xhr)
-    
-   // xhr.responseType = "blob";
    return new Promise(function (resolve, reject) {
     xhr.onreadystatechange = function receiveResponse() {
 
@@ -41,7 +38,7 @@ async function login(page){
                 return resolve();
             } else  {
                 console.log("failed");
-            
+                return resolve();
             }
         }
     };
@@ -51,20 +48,14 @@ async function login(page){
 
 }
 
-
-
-
 async function downloadImage(url,trendyolURL, commentCount){
     const xhr = new XMLHttpRequest()
     xhr.responseType = "blob";
-      //async does not support timeout
+
     xhr.open('GET',url,true)
-    //const json = loginJSON
-   // xhr.timeout = 15000
     addHeaders(xhr)
     return new Promise(function (resolve, reject) {
     xhr.onreadystatechange = function receiveResponse() {
-
         if (this.readyState == 4) {
             if (this.status == 200) {
                 var a = document.createElement("a"),
@@ -80,22 +71,15 @@ async function downloadImage(url,trendyolURL, commentCount){
                 return resolve();
             } else  {
                 console.log("failed while downloading");
-            
+                return resolve();
             }
         }
     };
    
      xhr.send()
     });
-
-
     
 }
-
-
-
-
-
 
 function addHeaders(xml){
     xml.setRequestHeader("accept", "application/json, text/plain, */*")
@@ -108,11 +92,5 @@ function addHeaders(xml){
 	xml.setRequestHeader("sec-fetch-mode", "cors")
 	xml.setRequestHeader("sec-fetch-site", "same-site")
 	xml.setRequestHeader("sec-gpc", "1")
-	
-
-
-	//xml.setRequestHeader("Content-Type", "application/json")
-	
-
-	//xml.setRequestHeader("User-Agent", "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36")
+		//xml.setRequestHeader("User-Agent", "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36")
 }
